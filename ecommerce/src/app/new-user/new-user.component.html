@@ -1,0 +1,72 @@
+
+<div class="container-fluid">
+    <div class="row" style="display: flex; margin: 2em auto;">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12" style="height: 210px;">
+                <img src="../../assets/img/logo.jpg" style="width: 200px; height: 200px; margin-top: 10px; border-radius: 200px;">
+            </div>
+            <div class="login-title">
+                Nuevo Usuario
+            </div>
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form" style="text-align: -webkit-center;">
+                    <form [formGroup]="formulario" novalidate (ngSubmit)="agregar($event)" style="width: 70%;">
+                        <div class="mb-2">
+                            <label class="form-control-label">USUARIO</label>
+                            <input type="text" [ngClass]="(nombreField?.errors && nombreField?.touched) ? 'errorInput' : ''" class="form-control" formControlName="nombre">
+                            <p *ngIf="this.formulario.get('nombre')?.hasError('required') && nombreField?.touched">
+                                <small class="errorText">El nombre de usuario es requerido</small>
+                            </p>
+                        </div>
+        
+                        <div class="mb-2">
+                            <label class="form-control-label">CORREO</label>
+                            <input type="text" [ngClass]="(emailField?.errors && emailField?.touched) ? 'errorInput' : ''" class="form-control" formControlName="email">
+                            <div *ngIf="emailField?.errors && emailField?.touched">
+                                <p *ngIf="emailField?.hasError('required')">
+                                    <small class="errorText"> El email es requerido </small>
+                                </p>
+                                <p *ngIf="emailField?.hasError('email')">
+                                    <small class="errorText"> No es un email válido </small>
+                                </p>
+                            </div>
+                        </div>
+        
+                        <div class="mb-2">
+                            <label class="form-control-label">CONTRASEÑA</label>
+                            <input type="password" [ngClass]="(passwordField?.errors && passwordField?.touched) ? 'errorInput' : ''" class="form-control" formControlName="password">
+                            <p *ngIf="passwordField?.hasError('required') && passwordField?.touched">
+                                <small class="errorText">La contraseña es requerida</small>
+                            </p> 
+                        </div>
+        
+                        <div class="mb-2">
+                            <label class="form-control-label">CONFIRMAR CONTRASEÑA</label>
+                            <input type="password" [ngClass]="(confirmacionField?.errors && confirmacionField?.touched) ? 'errorInput' : ''" class="form-control" formControlName="confirmarPassword">
+                            <div *ngIf="confirmacionField?.errors && confirmacionField?.touched">
+                                <p *ngIf="confirmacionField?.hasError('required') && confirmacionField?.touched">
+                                    <small class="errorText">La confirmación de contraseña es requerida</small>
+                                </p>
+                                <p *ngIf="confirmacionField?.hasError('MustMatch') && confirmacionField?.touched">
+                                    <small class="errorText">Las contraseñas no coinciden</small>
+                                </p>
+                            </div>
+                        </div>
+        
+                        <div class="row content" style="margin-bottom: 20px;">
+                            <div class="col-sm-6">
+                                <button type="reset" class="btn btn-outline-primary" style="margin: 5px;">Limpiar</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn btn-outline-primary" style="margin: 5px;">Registrarse</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</div>
+<br><br><br>

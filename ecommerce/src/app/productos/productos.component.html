@@ -1,0 +1,157 @@
+
+<div class="container">
+  <div style="background: linear-gradient(to bottom, #b6b6b6, #434343);">
+    <div class="container">
+      <div *ngIf="productosCarrito.length != 0">
+        <a data-bs-target="#exampleModal" data-bs-toggle="modal" class="btn-flotante">
+          <i class="bi bi-cart-plus"></i> Carrito <span
+          *ngIf="productosCarrito.length>0">({{productosCarrito.length}})</span>
+        </a>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mt-3"  style="margin-bottom: 15px;">
+          <form class="d-flex">
+            <input class="form-control me-2" [formControl]="clave" ng-model="searchText" style="width: 300px;" type="text" placeholder="epiphone, ltd, piano" aria-label="Search">
+            <button (click) = "busquedaClave()" class="btn btn-outline-primary" type="submit" style="margin-right: 10px;">Buscar</button>
+            <button (click) = "quitarBusqueda()" class="btn btn-outline-primary" type="submit">Quitar</button>
+          </form>  
+        </div>   
+        <div class="col-md-4 mt-8">
+        </div>
+        <div class="col-md-4 mt-3">
+          <div *ngIf="productosCarrito.length == 0 ; else mostrar">
+            <button data-bs-target="#exampleModal" data-bs-toggle="modal" class="btn btn-carrito" disabled>
+              <i class="bi bi-cart"></i> Carrito
+            </button>
+          </div>
+          <ng-template #mostrar>
+            <button data-bs-target="#exampleModal" data-bs-toggle="modal" class="btn btn-carrito" >
+              <i class="bi bi-cart"></i> Carrito <span *ngIf="productosCarrito.length>0">({{productosCarrito.length}})</span>
+            </button>
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="row content">
+          <div class="col-md-4" style="display: inline-flex;">
+            <div *ngFor="let palabras of palabrasBusqueda" style="border-radius: 10px; background-color: #434343; padding: 5px; margin: 5px; color:skyblue;">
+        
+              {{palabras}}
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="card-header" style="text-align: center;"> Lista de Productos</div>
+    <div class="card-body">
+      <div class="row content">
+        <div class="col">
+          <div *ngIf="productosBusqueda.length == 0; else busqueda">
+            <div class="row">
+              <div class="col-md-4" style="margin-bottom: 10px;" *ngFor="let items of productosActual | paginate: {itemsPerPage: 6, currentPage: currentPg}">
+                <div class="card h-100">
+                  <img src="{{items.img}}" class="card-img-top"><br>
+                  <div class="card-body">
+                    <h5 class="card-title">{{items.nombre}}</h5>
+                  </div>
+                  <div class="card-footer">
+                    <h5>{{items.precio | currency:'CLP'}}</h5>
+                    <button (click)="agregarProducto(productosActual.indexOf(items))" class="btn btn-primary">Agregar al Carrito</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ng-template #busqueda>
+            <div class="row">
+              <div class="col-md-4" style="margin-bottom: 10px;" *ngFor="let items of productosBusqueda | paginate: {itemsPerPage: 6, currentPage: currentPg}">
+                <div class="card h-100">
+                  <img src="{{items.img}}" class="card-img-top"><br>
+                  <div class="card-body">
+                    <h5 class="card-title">{{items.nombre}}</h5>
+                  </div>
+                  <div class="card-footer">
+                    <h5>{{items.precio | currency:'CLP'}}</h5>
+                    <button (click)="agregarProducto(productosActual.indexOf(items))" class="btn btn-primary">Agregar al Carrito</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <div class="pagination">
+            <pagination-controls previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="currentPg = $event"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Carrito de compra -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+          <div class="modal-header border-bottom-0">
+              <h5 class="modal-title" id="exampleModalLabel">Carrito de compra</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col">Producto</th>
+                      <th scope="col">Precio</th>
+                      <th scope="col">Cantidad</th>
+                      <th scope="col">Total</th>
+                      <th scope="col">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor = "let p of productosCarrito; let j = index">
+                      <td class="w-25">
+                          <img src="{{p.img}}" class="img-fluid img-thumbnail" alt="Sheep">
+                      </td>
+                      <td>{{p.nombre}}</td>
+                      <td>{{p.precio}}</td>
+                      <td style="width:15%;"><input type="number" min="1" onKeyDown="return false" class="form-control" [formControl]="cantidad" placeholder="{{productosCantidad[j+1].cant}}"></td>
+                      <td>{{p.precio*productosCantidad[j+1].cant}}</td>
+                      
+                      <td>
+                        <div style="display: flex;">
+                          <button (click) = "eliminarProducto(p.codigo)" class="btn btn-danger btn-sm ">
+                            <i class="fa fa-times"></i>
+                          </button> &nbsp;
+                          <button (click) = "actualizarProducto(p.codigo)"  href="#" class="btn btn-success btn-sm" >
+                              <i class="fas fa-sync-alt"></i>
+                          </button>
+                        </div>
+                      </td>
+                      
+
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <th>Total:</th>
+                      <td>{{totalCarrito | currency:'CLP'}}</td>
+                      <td></td>
+                  </tr>
+                  </tbody>
+                </table> 
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button data-bs-dismiss="modal" routerLink="../pagar" class="btn btn-primary">Pagar</button>
+          </div>
+      </div>
+  </div>
+</div>

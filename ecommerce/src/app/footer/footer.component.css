@@ -1,0 +1,9 @@
+.footer-bottom{
+    margin: 0 auto;
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    height: auto;
+   
+}

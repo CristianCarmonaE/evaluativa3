@@ -1,0 +1,225 @@
+
+<br>
+<div class="container">
+    <div class="content">
+        <div class="row">
+            <div class="col-md-7 datos-cliente">
+                <form [formGroup]="formularioPago">
+                    <div class="col-md-12 datos-envio">
+                        <div class="col-md-10">
+                            <h4>Datos de Envío</h4>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <select name="pais" id="pais" class="form-select pais-select" [ngClass]="(paisField?.errors && paisField?.touched) ? 'errorInput' : ''" formControlName="pais" (change)="mostrarRegion(this.formularioPago.value.pais)">
+                                        <option value="">Seleccionar País</option>
+                                        <option *ngFor="let pais of paises">
+                                            {{pais}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <p *ngIf="paisField?.hasError('required') && paisField?.touched">
+                                        <small class="errorText">*Seleccione un país</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" style="margin-bottom: 20px;">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <select name="region" id="region" class="form-select" [ngClass]="(regionField?.errors && regionField?.touched) ? 'errorInput' : ''" formControlName="region">
+                                        <option value="">Seleccionar Región</option>
+                                        <option *ngFor="let region of regiones">
+                                            {{region}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <p *ngIf="regionField?.hasError('required') && regionField?.touched">
+                                        <small class="errorText">*Seleccione una región</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" [ngClass]="(ciudadField?.errors && ciudadField?.touched) ? 'errorInput' : ''" placeholder="Ciudad" formControlName="ciudad">
+                                </div>
+                                <div class="col-md-3">
+                                    <div *ngIf = "ciudadField?.errors && ciudadField?.touched">
+                                        <p *ngIf="ciudadField?.hasError('required') && ciudadField?.touched">
+                                            <small class="errorText">*La ciudad es requerida</small>
+                                        </p>
+                                        <p *ngIf="ciudadField?.hasError('maxlength') && ciudadField?.touched">
+                                            <small class="errorText">*Máximo 30 caracteres</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" [ngClass]="(calleField?.errors && calleField?.touched) ? 'errorInput' : ''" placeholder="Calle" formControlName="calle">
+                                </div>
+                                <div class="col-md-3">
+                                    <div *ngIf = "calleField?.errors && calleField?.touched">
+                                        <p *ngIf="calleField?.hasError('required') && calleField?.touched">
+                                            <small class="errorText">*La calle es requerida</small>
+                                        </p>
+                                        <p *ngIf="calleField?.hasError('maxlength') && calleField?.touched">
+                                            <small class="errorText">*Máximo 40 caracteres</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>     
+                    </div>
+                    <div class="row content">
+                        <div class="col-md-12">
+                            <div class="col-md-12" style="margin-top: 10px; margin-bottom: 10px; padding: 10px;">
+                                <div class="col-md-10">
+                                    <h4>Datos de Pago</h4>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" [ngClass]="(nombreTarjetaField?.errors && nombreTarjetaField?.touched) ? 'errorInput' : ''" placeholder="Nombre en tarjeta" formControlName="nombreTarjeta">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p *ngIf="nombreTarjetaField?.hasError('required') && nombreTarjetaField?.touched">
+                                                <small class="errorText">*Campo requerido</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" maxlength="16" [ngClass]="(numeroTarjetaField?.errors && numeroTarjetaField?.touched) ? 'errorInput' : ''" placeholder="Número de tarjeta (Sin espacios)" formControlName="numeroTarjeta">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div *ngIf = "numeroTarjetaField?.errors && numeroTarjetaField?.touched">
+
+                                                <p *ngIf="numeroTarjetaField?.hasError('required')">
+                                                    <small class="errorText">*Campo requerido</small>
+                                                </p>
+                                                <p *ngIf="numeroTarjetaField?.hasError('minlength')">
+                                                    <small class="errorText">*Faltan dígitos</small>
+                                                </p>
+                                                <p *ngIf="numeroTarjetaField?.hasError('maxlength')">
+                                                    <small class="errorText">*Sobran dígitos</small>
+                                                </p>
+                                                <p *ngIf="numeroTarjetaField?.hasError('pattern')">
+                                                    <small class="errorText">*Ingresar sólo números</small>
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" [ngClass]="(vencimientoField?.errors && vencimientoField?.touched) ? 'errorInput' : ''" placeholder="MM / AA" formControlName="vencimiento">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" maxlength="3" [ngClass]="(cvcField?.errors && cvcField?.touched) ? 'errorInput' : ''" placeholder="CVC" formControlName="cvc">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p *ngIf="this.formularioPago.get('vencimiento')?.hasError('required') && this.formularioPago.get('vencimiento')?.touched
+                                            || this.formularioPago.get('cvc')?.hasError('required') && this.formularioPago.get('cvc')?.touched">
+                                                <small class="errorText">*Campo requerido</small>
+                                            </p>
+                                            <p *ngIf="this.formularioPago.get('cvc')?.hasError('pattern') && this.formularioPago.get('cvc')?.touched"> 
+                                                <small class="errorText">*CVC Inválido</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" [ngClass]="(codigoPostalField?.errors && codigoPostalField?.touched) ? 'errorInput' : ''" placeholder="Código postal" formControlName="codigoPostal">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div *ngIf = "codigoPostalField?.errors && codigoPostalField?.touched">
+                                                <p *ngIf="codigoPostalField?.hasError('required') && codigoPostalField?.touched">
+                                                    <small class="errorText">*Campo requerido</small>
+                                                </p>
+                                                <p *ngIf="codigoPostalField?.hasError('pattern') && codigoPostalField?.touched">
+                                                    <small class="errorText">*Ingresar sólo números</small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-10">
+                                    <label for="">
+                                        <input type="checkbox">
+                                        Recordar esta tarjeta
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row content" style="margin-bottom: 20px;">
+                        <div class="col-sm-4">
+                            <button type="reset" class="btn btn-outline-primary">Limpiar</button>
+                        </div>
+                        <div class="col-sm-8" >
+                            <button type="button" class="btn btn-outline-primary" routerLink="../productos">Seguir comprando</button>
+                            <button type="submit" class="btn btn-outline-primary" style="margin-left: 10px;" (click)="clickPagar()">Pagar</button>
+                        </div>
+                    </div>
+                    <div *ngIf="this.formularioPago.valid && pagar">
+                        <div class="alert alert-primary" role="alert">
+                            Su pedido ha sido ingresado. LLegara en los próximos días.
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-5 product-list">
+                <div class="col-md-12 carrito-box">
+                    <div *ngFor="let items of productosCarrito; let i = index ">
+                        <div class="row">
+                            <div class="col-md-1 cantidad-carrito">
+                                ({{productosCantidad[i+1].cant}})
+                            </div>
+                            <div class="col-md-3">
+                                <img src="{{items.img}}" class="img-carrito">
+                            </div>
+                            <div class="col-md-6">
+                                {{items.nombre}}
+                            </div>
+                            <div class="col-md-2 sub-total">
+                                ${{productosCantidad[i+1].cant*items.precio}}
+                            </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="col-md-12" style="text-align: center; font-size: larger; font-weight: bolder;">
+                   Total:  {{totalCarrito | currency:'CLP'}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br>
